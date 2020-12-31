@@ -1,0 +1,1 @@
+# Code for paper "Detection of Flying Honeybees in UAV Videos"
