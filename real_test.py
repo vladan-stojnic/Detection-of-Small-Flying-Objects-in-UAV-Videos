@@ -1,40 +1,35 @@
-from keras.optimizers import Adam
-from keras.models import load_model
-from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
-from nets import BeyondCountingModel
-from generator import HDF5Generator
-from sklearn.metrics import confusion_matrix
+from nets import SegmentationModel
 from skimage.transform import rescale
-from skimage.io import imsave
 import numpy as np
 import matplotlib.pyplot as plt
 import skvideo.io
 from skimage.color import rgb2gray
-from skimage.util import img_as_float, img_as_ubyte
-from keras.utils import plot_model
+from skimage.util import img_as_ubyte
 from keras.utils import multi_gpu_model
 from util import get_parser
 from scipy.ndimage.measurements import label
 import warnings
 warnings.filterwarnings("ignore")
 
-def heat_map(frame, m, n) :
-    
+
+def heat_map(frame, m, n):
+
     i, j = frame.shape
-    
+
     HM = np.zeros((i // m, j // n))
-    
-    for ii in np.arange(0, i, m) :
-        for jj in np.arange(0, j, n) :
-            pom = frame[ii : ii + m, jj : jj + n]
-            
+
+    for ii in np.arange(0, i, m):
+        for jj in np.arange(0, j, n):
+            pom = frame[ii:ii + m, jj:jj + n]
+
             labeled_array, num_labels = label(pom)
-            
+
             HM[ii // m, jj // n] = num_labels
-             
+
     return HM
 
-skala = 64
+
+patch_size = 64
 m = 64
 n = 64
 
@@ -86,7 +81,7 @@ try:
     
         writer.writeFrame(img_as_ubyte(ff))
     
-        frame_1 = ff[0 : (height // skala) * skala, 0 : (width // skala) * skala] > 0.15
+        frame_1 = ff[0 : (height // patch_size) * patch_size, 0 : (width // patch_size) * patch_size] > 0.15
         
         HM = heat_map(frame_1, m, n)
         

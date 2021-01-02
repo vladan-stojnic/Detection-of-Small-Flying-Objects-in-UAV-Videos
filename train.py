@@ -1,3 +1,11 @@
+""" Trains CNN segmentation model using synthetic datasets.
+
+CL Args:
+  --train_data Path to HDF5 training dataset.
+  --val_data Path to HDF5 validation dataset.
+  --model Path to model save file.
+"""
+
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping, ModelCheckpoint, LearningRateScheduler
 from keras.utils import multi_gpu_model

@@ -11,17 +11,14 @@ def get_parser():
     parser.add_argument("-i", "--input",
                         dest="input",
                         help="Path to input",
-                        default="../Videos",
                         required=False)
     parser.add_argument("-o", "--output",
                         dest="output",
                         help="Path to output",
-                        default="../Videos",
                         required=False)
     parser.add_argument("--mask",
                         dest="mask",
                         help="Path to directory with mask files",
-                        default="../Videos",
                         required=False)
     parser.add_argument("--bee_mean",
                         dest="bee_mean",
@@ -51,6 +48,28 @@ def get_parser():
     parser.add_argument("-a", "--annot",
                         dest="annot",
                         help="Npy file with human annotations.")
+    parser.add_argument("--train_data",
+                        dest="train_data",
+                        help="Train data",
+                        required=False)
+    parser.add_argument("--val_data",
+                        dest="val_data",
+                        help="Validation data",
+                        required=False)
+    parser.add_argument("--test_data",
+                        dest="test_data",
+                        help="Test data",
+                        required=False)
+    parser.add_argument("--model",
+                        dest="model",
+                        help="Model path",
+                        required=False)
+    parser.add_argument("--thr",
+                        dest="thr",
+                        help="Threshold",
+                        type=float,
+                        default=0.1,
+                        required=False)
 
 
     parser.add_argument("-m", "--map",
@@ -89,22 +108,6 @@ def get_parser():
                         help="Number of output channels",
                         type=int,
                         default=1,
-                        required=False)
-    parser.add_argument("--train_data",
-                        dest="train_data",
-                        help="Train data",
-                        required=False)
-    parser.add_argument("--val_data",
-                        dest="val_data",
-                        help="Validation data",
-                        required=False)
-    parser.add_argument("--test_data",
-                        dest="test_data",
-                        help="Test data",
-                        required=False)
-    parser.add_argument("--model",
-                        dest="model",
-                        help="Model path",
                         required=False)
     parser.add_argument("--thr",
                         dest="thr",

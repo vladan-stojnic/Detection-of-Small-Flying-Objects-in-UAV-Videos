@@ -39,3 +39,11 @@ Script chunked_dataset.py implements the code for creation of HDF5 datasets. It 
 ```
 python chunked_dataset.py -i INPUT_VIDEOS_DIR_PATH --mask MASK_VIDEOS_DIR_PATH -o OUTPUT_DATASET_PATH --type {train, val, test}
 ```
+
+## Training
+
+Script train.py implements the code for training of segmentation model. To run the script use:
+
+```
+python train.py --train_data TRAIN_DATASET_PATH --val_data VAL_DATASET_PATH --model MODEL_SAVE_PATH
+```
