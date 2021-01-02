@@ -1,9 +1,16 @@
+""" Program for creating human annotations.
+
+CL Args:
+  -i Path to input video file.
+  -o Path to annotations file.
+"""
+
 import cv2
 import numpy as np
 import pickle
-import argparse
 from os.path import isfile
-from skimage.io import imsave
+from util import get_parser
+
 
 def on_buttonup(event, x, y, flags, param):
     global annot, cnt, nframes, frame
@@ -16,29 +23,27 @@ def on_buttonup(event, x, y, flags, param):
             if dist[idx] < 200:
                 del annot[cnt][idx]
     show_frame(frame, annot, cnt, nframes)
-     
+
+
 def show_frame(frame, annot, cnt, nframes):
     image = frame.copy()
-    cv2.putText(image, 'frame: {:d}/{:d}'.format(cnt, nframes-1), 
+    cv2.putText(image, 'frame: {:d}/{:d}'.format(cnt, nframes-1),
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                 (0, 0, 255), 2)
     draw_annotations(image)
     cv2.imshow('frame', image)
- 
+
+
 def draw_annotations(img):
     global annot, cnt
     for (x, y) in annot[cnt]:
         cv2.circle(img, (x, y), 20, (0, 0, 255), 2)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--video', help='Input video file',
-                    type=str, required=True)
-parser.add_argument('-a', '--annot', help='Annotations file',
-                    type=str, required=True)
-args =  parser.parse_args()
+
+args = get_parser().parse_args()
 
 print("""
-      Komande:
+      Commands:
           x - forward frame
           z - backward frame
           s - save anotations
@@ -47,7 +52,7 @@ print("""
           right click  - delete annotation
           """)
 
-vs = cv2.VideoCapture(args.video)
+vs = cv2.VideoCapture(args.input)
 frames = []
 ret = True
 while vs.isOpened() and ret:
@@ -55,11 +60,9 @@ while vs.isOpened() and ret:
     if ret:
         frames.append(frame)
 
-#imsave('jedan_frejm.jpg', frames[0])
-
 nframes = len(frames)
-if isfile(args.annot):
-    with open(args.annot, 'rb') as f:
+if isfile(args.output):
+    with open(args.output, 'rb') as f:
         annot = pickle.load(f)
 else:
     annot = [[] for i in range(nframes)]
@@ -76,16 +79,15 @@ while True:
     if key == ord('q'):
         break
     elif key == ord('s'):
-        with open(args.annot, 'wb') as f:
+        with open(args.output, 'wb') as f:
             pickle.dump(annot, f, pickle.HIGHEST_PROTOCOL)
     elif key == ord('z') and cnt > 0:
         cnt -= 1
     elif key == ord('x') and cnt < nframes-1:
-        cnt += 1        
-    
+        cnt += 1
+
 vs.release()
 cv2.destroyAllWindows()
 
-with open(args.annot, 'wb') as f:
+with open(args.output, 'wb') as f:
     pickle.dump(annot, f, pickle.HIGHEST_PROTOCOL)
-    

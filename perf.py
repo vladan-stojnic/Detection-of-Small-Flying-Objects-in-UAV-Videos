@@ -1,21 +1,23 @@
+""" Calculates precision/recall/F1 for specified video with detections and human annotations.
+
+CL Args:
+  -i Path to input detections video file.
+  -a Path to annotations file.
+"""
+
 import numpy as np
 import pickle
 import cv2
 from sklearn.metrics import pairwise_distances
-import argparse
+from util import get_parser
 
 THR = 30
 DIST_THR = 20
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--video', help='Input video file',
-                    type=str, required=True)
-parser.add_argument('-a', '--annot', help='Annotations file',
-                    type=str, required=True)
-args =  parser.parse_args()
+args = get_parser().parse_args()
 
 ANNOT = args.annot
-PRED = args.video
+PRED = args.input
 
 with open(ANNOT, 'rb') as f:
     annot = pickle.load(f)
@@ -26,24 +28,22 @@ nframes = len(annot)
 vs = cv2.VideoCapture(PRED)
 frames = []
 ret = True
-kernel = np.ones((3,3), np.uint8)
+kernel = np.ones((3, 3), np.uint8)
 
 while vs.isOpened() and ret:
     ret, frame = vs.read()
     if ret:
         (width, height) = frame.shape[:2]
-        dets = cv2.threshold(frame[...,0], THR, 255, cv2.THRESH_BINARY)[1]
+        dets = cv2.threshold(frame[..., 0], THR, 255, cv2.THRESH_BINARY)[1]
         dets = cv2.erode(dets, kernel, iterations=1)
         dets = cv2.dilate(dets, kernel, iterations=1)
-        cnts = cv2.findContours(dets, 
-                                cv2.RETR_EXTERNAL,
-	                            cv2.CHAIN_APPROX_SIMPLE)[0]
+        cnts = cv2.findContours(dets, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
         frames.append([])
         for c in cnts:
             M = cv2.moments(c)
             cx = int(M["m10"] / M["m00"])
             cy = int(M["m01"] / M["m00"])
-            frames[-1].append((cx, cy))       
+            frames[-1].append((cx, cy))
 
 nframes = len(frames)
 
@@ -70,4 +70,3 @@ f1 = 2*r*p/(r+p)
 print('Recall: {:.2f}'.format(r))
 print('Precision: {:.2f}'.format(p))
 print('F1: {:.2f}'.format(f1))
-
