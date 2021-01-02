@@ -45,5 +45,27 @@ python chunked_dataset.py -i INPUT_VIDEOS_DIR_PATH --mask MASK_VIDEOS_DIR_PATH -
 Script train.py implements the code for training of segmentation model. To run the script use:
 
 ```
-python train.py --train_data TRAIN_DATASET_PATH --val_data VAL_DATASET_PATH --model MODEL_SAVE_PATH
+python train.py --train_data TRAIN_DATASET_PATH --val_data VAL_DATASET_PATH --model MODEL_PATH
+```
+
+## Detection
+
+Script detection.py implements the code for honeybee detection using trained model. To run the script use:
+
+```
+python detection.py -i INPUT_VIDEO_PATH -o DETECTION_VIDEO_PATH --model MODEL_PATH --heat_map DETECTION_HEAT_MAP_PATH
+```
+
+## Performance
+
+Script synthetic_test.py implements the code for calculating precision/recall/F1 on synthetic test dataset. To run the script use:
+
+```
+python synthetic_test.py --test_data TEST_DATASET_PATH --model MODEL_PATH [--thr DETECTION_THRESHOLD]
+```
+
+Script perf.py implements the code for calculating precision/recall/F1 on detections with human labels. To run the script use:
+
+```
+python perf.py -i DETECTION_VIDEO_PATH -a ANNOTATIONS_FILE
 ```

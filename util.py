@@ -70,49 +70,8 @@ def get_parser():
                         type=float,
                         default=0.1,
                         required=False)
-
-
-    parser.add_argument("-m", "--map",
-                        dest="heat",
-                        help="Path to output",
-                        default="mapa.npy",
-                        required=False)
-    parser.add_argument("-b", "--bgsub",
-                        dest="bgsub",
-                        help="Path to directory with bgsub files",
-                        default="weights.h5",
-                        required=False)
-    parser.add_argument("-g", "--gray",
-                        dest="gray",
-                        help="Path to directory with gray files",
-                        default="weights.h5",
-                        required=False)
-    parser.add_argument("-v", "--video",
-                        dest="video",
-                        help="Path to directory with gray files",
-                        default="weights.h5",
-                        required=False)
-    parser.add_argument("-c", "--combined",
-                        dest="combined",
-                        help="Use combinded",
-                        action='store_true',
-                        required=False)
-    parser.add_argument("-d", "--depth",
-                        dest="depth",
-                        help="Depth",
-                        type=int,
-                        default=3,
-                        required=False)
-    parser.add_argument("--num_out_channels",
-                        dest="num_out_channels",
-                        help="Number of output channels",
-                        type=int,
-                        default=1,
-                        required=False)
-    parser.add_argument("--thr",
-                        dest="thr",
-                        help="Threshold",
-                        type=float,
-                        default=0.04,
+    parser.add_argument("--heat_map",
+                        dest="heat_map",
+                        help="Path to heatmap",
                         required=False)
     return parser

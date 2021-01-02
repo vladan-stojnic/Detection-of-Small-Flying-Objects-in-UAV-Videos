@@ -1,3 +1,12 @@
+""" Performs detection using trained model.
+
+CL Args:
+  -i Path to input video file.
+  -o Path to output video file.
+  --model Path to trained model.
+  --heat_map Path to heatmap save file.
+"""
+
 from nets import SegmentationModel
 from skimage.transform import rescale
 import numpy as np
@@ -37,7 +46,7 @@ args = get_parser().parse_args()
 
 INPUT_FILE = args.input
 outfile = args.output
-heat = args.heat
+heat = args.heat_map
 
 
 metadata = skvideo.io.ffprobe(INPUT_FILE)
@@ -46,15 +55,17 @@ width = int(metadata['video']['@width'])
 height = int(metadata['video']['@height'])
 videodata = skvideo.io.FFmpegReader(INPUT_FILE)
 
-writer = skvideo.io.FFmpegWriter(outfile, inputdict={
-            '-r': rate}, 
-        outputdict={
-            '-r': rate,
-            '-pix_fmt': 'yuv420p'})
+writer = skvideo.io.FFmpegWriter(outfile, inputdict={'-r': rate},
+                                 outputdict={'-r': rate, '-pix_fmt': 'yuv420p'})
 
-model = BeyondCountingModel(input_shape = (height, width, 5))
-model = multi_gpu_model(model)
-model.load_weights('../Model/model_0.25_0.50_newbee_bigger_bees_bgsub2.hdf5')
+model = SegmentationModel(input_shape=(height, width, 5))
+
+try:
+    model = multi_gpu_model(model)
+except Exception:
+    pass
+
+model.load_weights(args.model)
 
 X = np.zeros((1, height, width, 5))
 
@@ -75,19 +86,19 @@ try:
         print(k)
         X[0, :, :, 4] = rgb2gray(f)
         X[0, :, :, 4] -= 0.5
-        
+
         pred = model.predict(X)
-        ff = rescale(pred[0, :, :, 0], 2, anti_aliasing = False)
-    
+        ff = rescale(pred[0, :, :, 0], 2, anti_aliasing=False)
+
         writer.writeFrame(img_as_ubyte(ff))
-    
-        frame_1 = ff[0 : (height // patch_size) * patch_size, 0 : (width // patch_size) * patch_size] > 0.15
-        
+
+        frame_1 = ff[0:(height // patch_size) * patch_size, 0:(width // patch_size) * patch_size] > 0.15
+
         HM = heat_map(frame_1, m, n)
-        
-        if (k == 0) :
+
+        if k == 0:
             mapa = HM
-        else :
+        else:
             mapa = mapa + HM
 
         X[0, :, :, 0] = X[0, :, :, 1].copy()
@@ -97,10 +108,10 @@ try:
 except RuntimeError:
     a = 0
 
-plt.figure()    
-plt.imshow(mapa, cmap = 'hot')
+plt.figure()
+plt.imshow(mapa, cmap='hot')
 plt.colorbar()
-plt.title("Heatmap ulaznog videa na prozoru " + str(m) + "x" + str(n) + ".")
+plt.title("Heatmap of input video on patch size " + str(m) + "x" + str(n) + ".")
 plt.savefig(heat + str(m) + 'x' + str(n) + '.pdf', bbox_inches='tight')
 
 np.save(heat + str(m) + 'x' + str(n), mapa)
