@@ -1,6 +1,6 @@
-# Detection of Flying Honeybees in UAV Videos
+# Detection of Small Flying Objects in UAV Videos
 
-This repository contains the code used in implementation of the paper Vladan Stojnić, Vladimir Risojević, Mario Muštra, Vedran Jovanović, Janja Filipi, Nikola Kezić, and Zdenka Babić, "Detection of Flying Honeybees in UAV Videos", submitted to Remote Sensing.
+This repository contains the code used in implementation of the paper Vladan Stojnić, Vladimir Risojević, Mario Muštra, Vedran Jovanović, Janja Filipi, Nikola Kezić, and Zdenka Babić, "Detection of Small Flying Objects in UAV Videos", submitted to Remote Sensing.
 
 Dataset with used videos can be obtained at https://doi.org/10.5281/zenodo.4400650 .
 
