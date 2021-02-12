@@ -1,6 +1,6 @@
 # Detection of Small Flying Objects in UAV Videos
 
-This repository contains the code used in implementation of the paper Vladan Stojnić, Vladimir Risojević, Mario Muštra, Vedran Jovanović, Janja Filipi, Nikola Kezić, and Zdenka Babić, ["A Method for Detection of Small Moving Objects in UAV Videos"] (https://www.mdpi.com/2072-4292/13/4/653), published in Remote Sensing.
+This repository contains the code used in implementation of the paper Vladan Stojnić, Vladimir Risojević, Mario Muštra, Vedran Jovanović, Janja Filipi, Nikola Kezić, and Zdenka Babić, [\"A Method for Detection of Small Moving Objects in UAV Videos\"](https://www.mdpi.com/2072-4292/13/4/653), published in Remote Sensing.
 
 Dataset with used videos can be obtained at https://doi.org/10.5281/zenodo.4400650 .
 
