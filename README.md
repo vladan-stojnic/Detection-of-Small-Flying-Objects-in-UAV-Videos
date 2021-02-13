@@ -85,5 +85,6 @@ python perf.py -i DETECTION_VIDEO_PATH -a ANNOTATIONS_FILE
     author={Stojnić, Vladan and Risojević, Vladimir and Muštra, Mario and Jovanović, Vedran and Filipi, Janja and Kezić, Nikola and Babić, Zdenka}, 
     year={2021}, 
     month={Feb}, 
-    pages={653}}
+    pages={653}
+}
 ```
