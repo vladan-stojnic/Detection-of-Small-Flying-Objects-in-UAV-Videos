@@ -69,3 +69,21 @@ Script perf.py implements the code for calculating precision/recall/F1 on detect
 ```
 python perf.py -i DETECTION_VIDEO_PATH -a ANNOTATIONS_FILE
 ```
+
+## Citation
+
+```
+@article{stojnic2021smallmovingobjects, 
+    title={A Method for Detection of Small Moving Objects in UAV Videos}, 
+    volume={13}, 
+    ISSN={2072-4292}, 
+    url={http://dx.doi.org/10.3390/rs13040653}, 
+    DOI={10.3390/rs13040653}, 
+    number={4}, 
+    journal={Remote Sensing}, 
+    publisher={MDPI AG}, 
+    author={Stojnić, Vladan and Risojević, Vladimir and Muštra, Mario and Jovanović, Vedran and Filipi, Janja and Kezić, Nikola and Babić, Zdenka}, 
+    year={2021}, 
+    month={Feb}, 
+    pages={653}}
+```
